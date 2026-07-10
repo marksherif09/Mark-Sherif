@@ -1,0 +1,338 @@
+.gg-hero {
+  position: relative;
+  width: 100%;
+  background: #ffffff;
+  color: #111111;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+
+  overflow: hidden;
+}
+
+/* ---------- TOP BAR ---------- */
+.gg-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 28px;
+  background: #f4f4f2;
+
+  flex-wrap: wrap;
+}
+
+.gg-logo {
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.gg-announcement {
+  font-size: 15px;
+  text-align: center;
+  flex: 1;
+  min-width: 200px;
+}
+
+/* ---------- BUTTONS ---------- */
+.gg-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 2px;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+.gg-btn:hover { opacity: 0.85; }
+
+.gg-btn--yellow {
+  background: #f5e400;
+  color: #111;
+}
+
+.gg-btn--black {
+  background: #111;
+  color: #fff;
+}
+
+.gg-arrow { font-size: 15px; }
+
+/* ---------- ILLUSTRATION (fixed background SVG) ---------- */
+.gg-illustration {
+  position: relative;
+  width: 100%;
+}
+
+.gg-illustration-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 686 / 264;
+  object-fit: cover;
+}
+
+/* ---------- MAIN CONTENT OVERLAY (desktop card) ---------- */
+.gg-content {
+  position: absolute;
+  left: 3%;
+  top: 58%;
+  width: 36%;
+  min-width: 260px;
+
+  background: #fff;
+  padding: 40px;
+  transform: translateY(-100px);
+  border-radius: 8px;
+
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+
+  z-index: 2;
+}
+
+.gg-heading {
+  font-size: clamp(28px, 5vw, 64px);
+  font-weight: 800;
+  line-height: 1;
+  margin: 0 0 20px;
+}
+
+.gg-description {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+.gg-description p { margin: 0; }
+
+/* ---------- BOTTOM BAR ---------- */
+.gg-bottombar {
+  text-align: center;
+  padding: 14px 20px;
+  background: #f4f4f2;
+
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* ===========================
+   Buttons Animation
+=========================== */
+
+.gg-btn {
+  transition:
+    transform .3s ease,
+    box-shadow .3s ease,
+    background .3s ease;
+}
+
+.gg-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, .18);
+}
+
+.gg-btn .gg-arrow {
+  display: inline-block;
+  margin-left: 10px;
+  transition: transform .3s ease;
+}
+
+.gg-btn:hover .gg-arrow {
+  transform: translateX(8px);
+}
+
+/* Base Button */
+.gg-btn {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition:
+    transform .3s ease,
+    box-shadow .3s ease,
+    color .3s ease;
+}
+
+/* Hover Background Animation */
+.gg-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .35s ease;
+  z-index: -1;
+}
+
+/* Yellow Button */
+.gg-btn--yellow::before {
+  background: #111;
+}
+
+.gg-btn--yellow:hover {
+  color: #fff;
+}
+
+.gg-btn--yellow:hover::before {
+  transform: scaleX(1);
+}
+
+/* Black Button */
+.gg-btn--black::before {
+  background: #f5e400;
+}
+
+.gg-btn--black:hover {
+  color: #111;
+}
+
+.gg-btn--black:hover::before {
+  transform: scaleX(1);
+}
+
+.gg-btn:active {
+  transform: translateY(-1px) scale(.98);
+}
+
+/* ===========================
+   Hamburger menu toggle (mobile)
+=========================== */
+
+.gg-menu-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.gg-menu-icon,
+.gg-menu-icon::before,
+.gg-menu-icon::after {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #111;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+
+.gg-menu-icon {
+  position: relative;
+}
+.gg-menu-icon::before,
+.gg-menu-icon::after {
+  content: '';
+  position: absolute;
+  left: 0;
+}
+.gg-menu-icon::before { top: -7px; }
+.gg-menu-icon::after { top: 7px; }
+
+/* morph hamburger into an X when open */
+.gg-menu-toggle[aria-expanded="true"] .gg-menu-icon {
+  background: transparent;
+}
+.gg-menu-toggle[aria-expanded="true"] .gg-menu-icon::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+.gg-menu-toggle[aria-expanded="true"] .gg-menu-icon::after {
+  top: 0;
+  transform: rotate(-45deg);
+}
+
+/* ===========================
+   Mobile dropdown panel (announcement + top button)
+=========================== */
+
+.gg-mobile-panel {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: #f4f4f2;
+  text-align: center;
+}
+.gg-mobile-panel[hidden] { display: none; }
+.gg-mobile-panel.is-open { display: flex; }
+
+.gg-mobile-panel-text {
+  font-size: 15px;
+  margin: 0;
+}
+
+/* ===========================
+   Responsive visibility helpers
+=========================== */
+
+.gg-mobile-only { display: none; }
+.gg-mobile-text { display: none; }
+.gg-mobile-shopbtn { display: none; }
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 989px) {
+  .gg-content { width: 55%; }
+}
+
+@media (max-width: 600px) {
+  .gg-topbar {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 14px;
+  }
+
+  .gg-menu-toggle { display: flex; }
+  .gg-logo { flex: 1; text-align: center; }
+
+  .gg-desktop-only { display: none !important; }
+  .gg-mobile-only { display: block; }
+
+  /* Heading + description centered above the illustration */
+  .gg-mobile-text {
+    text-align: center;
+    padding: 28px 20px 16px;
+  }
+  .gg-mobile-text .gg-heading { margin: 0 0 12px; }
+  .gg-mobile-text .gg-description { margin: 0 auto; max-width: 340px; }
+
+  /* Shop button overlaid on the illustration itself */
+  .gg-mobile-shopbtn {
+    display: inline-flex;
+    position: absolute;
+    left: 50%;
+    top: 62%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    white-space: nowrap;
+  }
+  .gg-mobile-shopbtn:hover { transform: translate(-50%, -50%) translateY(-4px); }
+  .gg-mobile-shopbtn:active { transform: translate(-50%, -50%) translateY(-1px) scale(.98); }
+}
+.gg-mobile-bottom-bar {
+  display: none;
+}
+
+
+@media (max-width: 600px) {
+
+  .gg-desktop-bottom-bar {
+    display: none;
+  }
+
+  .gg-mobile-bottom-bar {
+    display: block;
+  }
+
+}
