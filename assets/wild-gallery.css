@@ -1,0 +1,675 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap');
+
+.wg-root {
+  --wg-black: #111111;
+  --wg-white: #ffffff;
+  position: relative;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 48px 32px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  color: var(--wg-black);
+}
+
+.wg-heading {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 500;
+  font-size: 34px;
+  margin: 0 0 28px;
+}
+
+/* ---------- GRID ---------- */
+.wg-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.wg-item {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #f4f4f2;
+}
+
+.wg-item-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wg-item-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: #999;
+  font-size: 13px;
+  text-align: center;
+  padding: 16px;
+  background: repeating-linear-gradient(45deg, #f4f4f2, #f4f4f2 10px, #ebebe8 10px, #ebebe8 20px);
+}
+
+/* ---------- HOTSPOT ---------- */
+.wg-hotspot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.wg-hotspot:hover {
+  background: #fff;
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.wg-hotspot-plus {
+  font-size: 18px;
+  line-height: 1;
+  color: var(--wg-black);
+  font-weight: 400;
+}
+
+.wg-hotspot.is-editor-selected {
+  outline: 2px solid #4f46e5;
+  outline-offset: 2px;
+}
+
+/* ---------- MODAL ---------- */
+.wg-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .35s ease;
+}
+
+.wg-modal:not([hidden]) {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+.wg-modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  backdrop-filter: blur(3px);
+}
+
+
+.wg-modal-dialog {
+
+  position: relative;
+  background: white;
+
+  width: 100%;
+  max-width: 310px;
+
+  padding: 18px;
+
+  border-radius: 0;
+
+  transform: translateY(40px) scale(.95);
+  opacity: 0;
+
+  transition:
+    transform .4s cubic-bezier(.16,1,.3,1),
+    opacity .3s ease;
+
+  box-shadow:
+  0 20px 60px rgba(0,0,0,.25);
+}
+
+
+.wg-modal:not([hidden]) .wg-modal-dialog {
+
+  transform:
+  translateY(0)
+  scale(1);
+
+  opacity:1;
+
+}
+
+
+/* CLOSE */
+
+.wg-modal-close {
+
+  position:absolute;
+
+  top:10px;
+  right:12px;
+
+  font-size:24px;
+
+  background:none;
+  border:0;
+
+  cursor:pointer;
+
+  z-index:5;
+
+}
+
+
+/* HEADER */
+
+.wg-modal-header {
+
+  display:flex;
+  gap:12px;
+
+  margin-bottom:16px;
+
+}
+
+
+.wg-modal-media {
+
+  width:90px;
+  height:120px;
+
+  flex:none;
+
+}
+
+
+.wg-modal-media img {
+
+ width:100%;
+ height:100%;
+
+ object-fit:cover;
+
+}
+
+
+.wg-modal-title {
+
+ font-size:17px;
+ font-weight:400;
+
+ margin:0 0 10px;
+
+}
+
+
+.wg-modal-price {
+
+ font-size:16px;
+
+ margin-bottom:10px;
+
+}
+
+
+.wg-modal-desc {
+
+ font-size:12px;
+
+ line-height:1.35;
+
+}
+
+
+/* OPTIONS */
+
+.wg-option-label {
+
+ font-size:13px;
+
+ margin-bottom:8px;
+
+}
+
+
+
+/* SIZE */
+
+.wg-select {
+
+ height:42px;
+
+}
+
+
+/* =====================
+ ADD BUTTON
+===================== */
+
+
+.wg-btn {
+
+position:relative;
+
+overflow:hidden;
+
+height:46px;
+
+background:#000;
+
+color:#fff;
+
+}
+
+
+.wg-btn::before {
+
+content:"";
+
+position:absolute;
+
+left:-100%;
+
+top:0;
+
+width:100%;
+height:100%;
+
+background:#333;
+
+transition:.35s ease;
+
+}
+
+
+.wg-btn:hover::before {
+
+left:0;
+
+}
+
+
+.wg-btn span {
+
+position:relative;
+z-index:2;
+
+}
+
+
+.wg-arrow {
+
+transition:.3s ease;
+
+}
+
+
+.wg-btn:hover .wg-arrow {
+
+transform:translateX(8px);
+
+}
+
+
+/* ---------- OPTIONS ---------- */
+.wg-modal-options { margin-bottom: 20px; }
+
+.wg-option { margin-bottom: 16px; }
+
+.wg-option-label {
+  font-size: 13px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.wg-swatches{
+
+    position:relative;
+
+    display:flex;
+
+    border:1px solid #111;
+
+    overflow:hidden;
+
+    height:46px;
+
+}
+.wg-swatch::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    top:0;
+
+    width:4px;
+    height:100%;
+
+    background:var(--wg-swatch-color,#111);
+
+    z-index:2;
+
+}
+
+.wg-color-name{
+
+    flex:1;
+
+    text-align:left;
+
+}
+
+.wg-swatch-slider{
+
+    position:absolute;
+
+    top:0;
+    left:0;
+
+    width:0;
+
+    height:100%;
+
+    background:#111;
+
+    transition:
+        left .45s cubic-bezier(.22,1,.36,1),
+        width .45s cubic-bezier(.22,1,.36,1);
+
+    z-index:1;
+
+}
+
+.wg-swatch{
+
+    position:relative;
+
+    flex:1;
+
+    background:transparent;
+
+    border:none;
+
+    color:#111;
+
+    cursor:pointer;
+
+    z-index:2;
+
+    transition:color .3s ease;
+
+}
+
+.wg-swatch.is-selected{
+
+    color:#fff;
+
+    font-weight:600;
+
+}
+
+.wg-swatch:not(:last-child){
+
+    border-right:1px solid #111;
+
+}
+
+/* ---------- CUSTOM DROPDOWN---------- */
+
+.wg-dropdown{
+    position:relative;
+    width:100%;
+}
+
+.wg-dropdown-trigger{
+
+    width:100%;
+    height:46px;
+
+    border:1px solid #111;
+    background:#fff;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 14px;
+
+    cursor:pointer;
+
+    font-size:14px;
+
+    transition:.25s;
+
+}
+
+.wg-dropdown-trigger:hover{
+
+    border-color:#000;
+
+}
+
+.wg-dropdown.open .wg-dropdown-trigger{
+
+    box-shadow:0 0 0 2px rgba(0,0,0,.12);
+
+}
+
+.wg-dropdown-trigger svg{
+
+    transition:.25s;
+
+}
+
+.wg-dropdown.open .wg-dropdown-trigger svg{
+
+    transform:rotate(180deg);
+
+}
+
+.wg-dropdown-menu{
+
+    position:absolute;
+
+    top:calc(100% + 4px);
+    left:0;
+    right:0;
+
+    background:#fff;
+
+    border:1px solid #111;
+
+    display:none;
+
+    max-height:220px;
+
+    overflow-y:auto;
+
+    z-index:100;
+
+}
+
+.wg-dropdown.open .wg-dropdown-menu{
+
+    display:block;
+
+}
+
+.wg-dropdown-item{
+
+    padding:12px 14px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+    background:#fff;
+
+    color:#111;
+
+}
+
+.wg-dropdown-item:hover{
+
+    background:#111;
+
+    color:#fff;
+
+}
+
+.wg-dropdown-item.selected{
+
+    background:#111;
+
+    color:#fff;
+
+    font-weight:600;
+
+}
+/* ---------- ADD TO CART BUTTON ---------- */
+.wg-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 22px;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.wg-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.wg-btn--black {
+  background: var(--wg-black);
+  color: #fff;
+}
+.wg-btn--black {
+  position:relative;
+  overflow:hidden;
+  z-index:1;
+}
+
+
+.wg-btn--black::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:#f5e400;
+  transform:translateX(-100%);
+  transition:.35s ease;
+  z-index:-1;
+}
+
+
+.wg-btn--black:hover:not(:disabled)::before {
+  transform:translateX(0);
+}
+
+
+.wg-btn--black:hover:not(:disabled){
+  color:#111;
+}
+
+.wg-arrow { font-size: 15px; }
+
+.wg-modal-message {
+  margin: 12px 0 0;
+  font-size: 13px;
+  text-align: center;
+  min-height: 18px;
+  color: #333;
+}
+
+body.wg-modal-open { overflow: hidden; }
+
+/* ---------- POPUP ANIMATION ---------- */
+.wg-modal-dialog {
+  animation: wgPopup .35s ease forwards;
+}
+
+
+@keyframes wgPopup {
+
+  from {
+    opacity:0;
+    transform:
+      translateY(30px)
+      scale(.95);
+  }
+
+  to {
+    opacity:1;
+    transform:
+      translateY(0)
+      scale(1);
+  }
+
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 768px) {
+  .wg-heading { font-size: 26px; }
+  .wg-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+}
+
+@media (max-width: 600px) {
+  .wg-root { padding: 32px 16px; }
+  .wg-hotspot { width: 28px; height: 28px; }
+  .wg-hotspot-plus { font-size: 15px; }
+  .wg-modal-dialog { padding: 20px; }
+  .wg-modal-media { flex: 0 0 80px; width: 80px; height: 80px; }
+  .wg-modal-title { font-size: 17px; }
+}
+@media(max-width:600px){
+
+.wg-modal-dialog{
+
+ max-width:330px;
+
+ padding:20px;
+
+}
+
+
+.wg-modal-media{
+
+ width:85px;
+ height:110px;
+
+}
+
+
+.wg-modal-title{
+
+ font-size:16px;
+
+}
+
+
+.wg-modal-desc{
+
+ font-size:11px;
+
+}
+
+}
