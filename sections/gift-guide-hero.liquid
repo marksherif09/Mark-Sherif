@@ -1,0 +1,199 @@
+{{ 'gift-guide-hero.css' | asset_url | stylesheet_tag }}
+
+<section class="gg-hero" id="gg-hero-{{ section.id }}">
+
+  <!-- ===== TOP BAR ===== -->
+  <div class="gg-topbar">
+    <button
+      type="button"
+      class="gg-menu-toggle"
+      aria-expanded="false"
+      aria-controls="gg-mobile-panel-{{ section.id }}"
+      aria-label="Menu"
+      data-gg-menu-toggle
+    >
+      <span class="gg-menu-icon" aria-hidden="true"></span>
+    </button>
+
+    <div class="gg-logo">{{ section.settings.logo_text }}</div>
+
+    {% if section.settings.announcement_text != blank %}
+      <div class="gg-announcement gg-desktop-only">{{ section.settings.announcement_text }}</div>
+    {% endif %}
+
+    {% if section.settings.top_button_text != blank %}
+      <a href="{{ section.settings.top_button_link | default: '#' }}" class="gg-btn gg-btn--yellow gg-desktop-only">
+        {{ section.settings.top_button_text }}
+        <span class="gg-arrow">&rarr;</span>
+      </a>
+    {% endif %}
+  </div>
+
+  <!-- ===== MOBILE MENU PANEL (announcement + button, revealed by hamburger) ===== -->
+  <div class="gg-mobile-panel" id="gg-mobile-panel-{{ section.id }}" data-gg-mobile-panel hidden>
+    {% if section.settings.announcement_text != blank %}
+      <p class="gg-mobile-panel-text">{{ section.settings.announcement_text }}</p>
+    {% endif %}
+
+    {% if section.settings.top_button_text != blank %}
+      <a href="{{ section.settings.top_button_link | default: '#' }}" class="gg-btn gg-btn--yellow">
+        {{ section.settings.top_button_text }}
+        <span class="gg-arrow">&rarr;</span>
+      </a>
+    {% endif %}
+  </div>
+
+  <!-- ===== MOBILE-ONLY HEADING + DESCRIPTION (shown above illustration on small screens) ===== -->
+  <div class="gg-mobile-text gg-mobile-only">
+    {% if section.settings.heading != blank %}
+      <h1 class="gg-heading">{{ section.settings.heading }}</h1>
+    {% endif %}
+    {% if section.settings.description != blank %}
+      <div class="gg-description">{{ section.settings.description }}</div>
+    {% endif %}
+  </div>
+
+  <!-- ===== ILLUSTRATION (fixed background SVG) + CONTENT OVERLAY ===== -->
+  <div class="gg-illustration">
+    <img
+      src="{{ 'gift-guide-illustration.svg' | asset_url }}"
+      class="gg-illustration-img"
+      alt="{{ section.settings.illustration_alt | default: 'Gift guide illustration' }}"
+      loading="lazy"
+    >
+
+    <!-- ===== DESKTOP CONTENT CARD (heading + description + button) ===== -->
+    <div class="gg-content gg-desktop-only">
+      {% if section.settings.heading != blank %}
+        <h1 class="gg-heading">{{ section.settings.heading }}</h1>
+      {% endif %}
+
+      {% if section.settings.description != blank %}
+        <div class="gg-description">{{ section.settings.description }}</div>
+      {% endif %}
+
+      {% if section.settings.shop_button_text != blank %}
+        <a href="{{ section.settings.shop_button_link | default: '#' }}" class="gg-btn gg-btn--black">
+          {{ section.settings.shop_button_text }}
+          <span class="gg-arrow">&rarr;</span>
+        </a>
+      {% endif %}
+    </div>
+
+    <!-- ===== MOBILE-ONLY SHOP BUTTON (overlaid on the illustration) ===== -->
+    {% if section.settings.shop_button_text != blank %}
+      <a href="{{ section.settings.shop_button_link | default: '#' }}" class="gg-btn gg-btn--black gg-mobile-shopbtn gg-mobile-only">
+        {{ section.settings.shop_button_text }}
+        <span class="gg-arrow">&rarr;</span>
+      </a>
+    {% endif %}
+  </div>
+
+  <!-- ===== BOTTOM BAR ===== -->
+    {% if section.settings.bottom_bar_text != blank %}
+      <div class="gg-bottombar gg-desktop-bottom-bar">
+        {{ section.settings.bottom_bar_text }}
+      </div>
+    {% endif %}
+    
+    {% if section.settings.mobile_bottom_bar_text != blank %}
+      <div class="gg-bottombar gg-mobile-bottom-bar">
+        {{ section.settings.mobile_bottom_bar_text }}
+      </div>
+    {% endif %}
+</section>
+
+<script src="{{ 'gift-guide-hero.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Gift Guide Hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Top bar"
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo text",
+      "default": "TISSO VISON"
+    },
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement text",
+      "default": "Find the ideal gift for your loved ones."
+    },
+    {
+      "type": "text",
+      "id": "top_button_text",
+      "label": "Top right button label",
+      "default": "CHOOSE GIFT"
+    },
+    {
+      "type": "url",
+      "id": "top_button_link",
+      "label": "Top right button link"
+    },
+    {
+      "type": "header",
+      "content": "Illustration"
+    },
+    {
+      "type": "text",
+      "id": "illustration_alt",
+      "label": "Illustration alt text",
+      "default": "Gift guide illustration"
+    },
+    {
+      "type": "header",
+      "content": "Main content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The Gift Guide"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.</p>"
+    },
+    {
+      "type": "text",
+      "id": "shop_button_text",
+      "label": "Shop button label",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "shop_button_link",
+      "label": "Shop button link"
+    },
+    {
+      "type": "header",
+      "content": "Bottom bar"
+    },
+    {
+      "type": "text",
+      "id": "bottom_bar_text",
+      "label": "Bottom bar text",
+      "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
+    },
+    {
+      "type": "text",
+      "id": "mobile_bottom_bar_text",
+      "label": "Mobile bottom bar text",
+      "default": "FREE SHIPPING ON ALL ORDERS"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gift Guide Hero"
+    }
+  ]
+}
+{% endschema %}

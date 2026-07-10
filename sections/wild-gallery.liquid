@@ -1,0 +1,197 @@
+{{ 'wild-gallery.css' | asset_url | stylesheet_tag }}
+
+<div class="wg-root" id="wg-root-{{ section.id }}" data-currency="{{ shop.currency }}">
+
+  {% if section.settings.heading != blank %}
+    <h2 class="wg-heading">{{ section.settings.heading }}</h2>
+  {% endif %}
+
+  <div class="wg-grid">
+    {% for block in section.blocks %}
+      {% assign product = block.settings.product %}
+      <div class="wg-item" {{ block.shopify_attributes }}>
+
+        {% if block.settings.image != blank %}
+          {{ block.settings.image | image_url: width: 1200 | image_tag:
+              loading: 'lazy',
+              class: 'wg-item-img',
+              alt: block.settings.image.alt | default: product.title
+          }}
+        {% else %}
+          <div class="wg-item-placeholder">Select a lifestyle photo in the customizer</div>
+        {% endif %}
+
+        {% if product != blank %}
+          <button
+            type="button"
+            class="wg-hotspot"
+            style="left: {{ block.settings.hotspot_x }}%; top: {{ block.settings.hotspot_y }}%;"
+            aria-label="Quick view {{ product.title | escape }}"
+            data-wg-open
+          >
+            <span class="wg-hotspot-plus">+</span>
+          </button>
+
+          {% capture product_json %}
+            {
+              "title": {{ product.title | json }},
+              "handle": {{ product.handle | json }},
+              "description": {{ product.description | strip_html | json }},
+              "image": {{ product.featured_image | image_url: width: 800 | json }},
+              "options": {{ product.options | json }},
+              "variants": [
+                {% for variant in product.variants %}
+                {
+                  "id": {{ variant.id | json }},
+                  "title": {{ variant.title | json }},
+                  "price": {{ variant.price | json }},
+                  "available": {{ variant.available | json }},
+                  "option1": {{ variant.option1 | json }},
+                  "option2": {{ variant.option2 | json }},
+                  "option3": {{ variant.option3 | json }}
+                }{% unless forloop.last %},{% endunless %}
+                {% endfor %}
+              ]
+            }
+          {% endcapture %}
+          <script type="application/json" data-wg-product>{{ product_json }}</script>
+        {% endif %}
+
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- ===== QUICK VIEW MODAL (shared, populated dynamically) ===== -->
+  <div class="wg-modal" data-wg-modal hidden>
+    <div class="wg-modal-overlay" data-wg-close></div>
+    <div class="wg-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="wg-modal-title-{{ section.id }}">
+      <button type="button" class="wg-modal-close" data-wg-close aria-label="Close">
+         ×
+      </button>
+
+      <div class="wg-modal-header">
+        <div class="wg-modal-media">
+          <img data-wg-image src="" alt="">
+        </div>
+        <div class="wg-modal-headtext">
+          <h3 class="wg-modal-title" id="wg-modal-title-{{ section.id }}" data-wg-title></h3>
+          <p class="wg-modal-price" data-wg-price></p>
+          <div class="wg-modal-desc" data-wg-desc></div>
+        </div>
+      </div>
+
+      <div class="wg-modal-options" data-wg-options></div>
+
+      <button type="button" class="wg-btn wg-btn--black" data-wg-add>
+        <span data-wg-add-label>ADD TO CART</span>
+        <span class="wg-arrow">&rarr;</span>
+      </button>
+
+      <p class="wg-modal-message" data-wg-message role="status" aria-live="polite"></p>
+    </div>
+  </div>
+
+  {% if section.settings.auto_add_product != blank %}
+    {% assign auto_product = section.settings.auto_add_product %}
+    {% capture auto_add_json %}
+      {
+        "title": {{ auto_product.title | json }},
+        "variants": [
+          {% for variant in auto_product.variants %}
+          {
+            "id": {{ variant.id | json }},
+            "available": {{ variant.available | json }},
+            "option1": {{ variant.option1 | json }},
+            "option2": {{ variant.option2 | json }},
+            "option3": {{ variant.option3 | json }}
+          }{% unless forloop.last %},{% endunless %}
+          {% endfor %}
+        ]
+      }
+    {% endcapture %}
+    <script type="application/json" data-wg-autoadd>{{ auto_add_json }}</script>
+  {% endif %}
+
+</div>
+
+<script src="{{ 'wild-gallery.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Shop the Look Gallery",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Tisso vison in the wild"
+    },
+    {
+      "type": "header",
+      "content": "Automatic add-on"
+    },
+    {
+      "type": "product",
+      "id": "auto_add_product",
+      "label": "Auto-add product",
+      "info": "e.g. Soft Winter Jacket"
+    },
+    {
+      "type": "paragraph",
+      "content": "If a shopper adds any product from this grid with the variant options \"Black\" and \"Medium\" selected, the product chosen above is automatically added to their cart too."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Product photo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Lifestyle photo"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "range",
+          "id": "hotspot_x",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Hotspot horizontal position",
+          "default": 70
+        },
+        {
+          "type": "range",
+          "id": "hotspot_y",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Hotspot vertical position",
+          "default": 35
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Shop the Look Gallery",
+      "blocks": [
+        { "type": "item" },
+        { "type": "item" },
+        { "type": "item" },
+        { "type": "item" },
+        { "type": "item" },
+        { "type": "item" }
+      ]
+    }
+  ]
+}
+{% endschema %}
